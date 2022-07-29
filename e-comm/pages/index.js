@@ -2,7 +2,32 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
+
+
+
+export default function Home({products}) {
+
+  console.log('products', products);
+
+const productList = products.map(product=>{
+  return(
+      <div className="card" key={product._id}>
+        <div className="card-image">
+          <img src={product.mediaUrl} />
+          {/* <Image src={product.mediaUrl} width='250px' height='250px' placeholder='blur' blurDataURL={product.mediaUrl} alt="lap" /> */}
+          <span className="card-title">{product.name}</span>
+        </div>
+        <div className="card-content">
+          <p>{product.description}</p>
+        </div>
+        <div className="card-action">
+          <a href="#">{product.price}</a>
+        </div>
+      </div>
+  )
+})
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,7 +38,10 @@ export default function Home() {
 
       <main>
 
-        <h1>HOME</h1>
+      <div className='rootCard'>
+        {productList}
+      </div>
+
 
       </main>
 
@@ -31,4 +59,16 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+
+export async function getStaticProps(context){
+  const res = await fetch('http://localhost:3000/api/products')
+
+  const data = await res.json();
+  return {
+    props:{
+        products:data
+    }
+  }
 }

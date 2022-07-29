@@ -24,3 +24,18 @@ a {
     background: black;
   }
 }
+
+@media (min-width:600px){
+
+
+.rootCard{
+  display: flex;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+.card{
+  max-width: 30%;
+  margin: 20px;
+}
+}
