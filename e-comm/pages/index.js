@@ -1,9 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-
-
-
+import Link from 'next/link';
 
 export default function Home({products}) {
 
@@ -11,7 +9,9 @@ export default function Home({products}) {
 
 const productList = products.map(product=>{
   return(
-      <div className="card" key={product._id}>
+    <Link href={`product/${product._id}`}  >
+      
+      <div className="card productLink" key={product._id}>
         <div className="card-image">
           <img src={product.mediaUrl} />
           {/* <Image src={product.mediaUrl} width='250px' height='250px' placeholder='blur' blurDataURL={product.mediaUrl} alt="lap" /> */}
@@ -24,6 +24,8 @@ const productList = products.map(product=>{
           <a href="#">{product.price}</a>
         </div>
       </div>
+      
+      </Link>
   )
 })
 
