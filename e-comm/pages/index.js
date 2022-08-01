@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
+import baseUrl from '../helpers/baseUrl';
 
 export default function Home({products}) {
 
@@ -65,7 +66,7 @@ const productList = products.map(product=>{
 
 
 export async function getStaticProps(context){
-  const res = await fetch('http://localhost:3000/api/products')
+  const res = await fetch(`${baseUrl}/api/products`)
 
   const data = await res.json();
   return {
