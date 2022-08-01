@@ -1,13 +1,12 @@
 import {parseCookies} from 'nookies'
 
-const Account = () => {
+const Cart = () => {
   return (
-    <div><h2>Account page</h2></div>
+    <div> <h2>Cart</h2></div>
   )
 }
 
-export default Account
-
+export default Cart
 
 export async function getServerSideProps(ctx){
     const {token} = parseCookies(ctx)
