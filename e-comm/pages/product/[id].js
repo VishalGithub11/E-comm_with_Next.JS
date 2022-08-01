@@ -27,20 +27,29 @@ const Product = ({product}) => {
       <p>Are you sure want to delete this ?</p>
     </div>
     <div className="modal-footer">
-    <a class="modal-close waves-effect waves-light btn #f44336 red">YES</a>
-    <a class="modal-close waves-effect waves-light btn #757575 grey darken-1">No</a>
+    <a className="modal-close waves-effect waves-light btn #f44336 red" onClick={()=>deleteProduct()} >YES</a>
+    <a className="modal-close waves-effect waves-light btn #757575 grey darken-1">No</a>
     </div>
   </div>
     )
   }
 
+  const deleteProduct =async ()=>{
+    const res = await fetch(`${baseUrl}/api/product/${product._id}`, {
+      method: "DELETE"
+    })
+    const data = await res.json()
+    console.log(data);
+    router.push('/')
+  }
+
   return (
     <div className="" >
-        <div class="card">
-        <div class="card-image">
+        <div className="card">
+        <div className="card-image">
           <img src={product.mediaUrl} />
-          <span class="card-title">{product.name}</span>
-          <a class="btn-floating halfway-fab waves-effect waves-light red">
+          <span className="card-title">{product.name}</span>
+          <a className="btn-floating halfway-fab waves-effect waves-light red">
             {/* <div> */}
             {/* <i class="material-icons"> add </i>  */}
             <i className="material-icons">
@@ -64,7 +73,7 @@ const Product = ({product}) => {
           <div style={{display:"grid", gridTemplateColumns: "40% 30% 30%"}}>
             
           <input placeholder="add items"  /> 
-          <span></span> <a className="btn-floating btn-large waves-effect #4caf50 green "><i class="material-icons">add</i></a>
+          <span></span> <a className="btn-floating btn-large waves-effect #4caf50 green "><i className="material-icons">add</i></a>
           </div>
           <a data-target="modal1"className="btn modal-trigger waves-effect waves-light btn #f44336 red">Delete</a>
          

@@ -14,7 +14,9 @@ const Navbar = () => {
   return (
     <nav>
     <div className="nav-wrapper">
-      <a href="#" className="brand-logo">sfs.com</a>
+      <Link href="/">
+      <a  className="brand-logo">sfs.com</a>
+      </Link>
       <ul id="nav-mobile" className="right hide-on-med-and-down">
         <li className={isActive('/login')} > <Link href="/login"><a>Login</a></Link ></li>
         <li  className={isActive('/signup')}><Link href="/signup"><a>Sign up</a></Link></li>
