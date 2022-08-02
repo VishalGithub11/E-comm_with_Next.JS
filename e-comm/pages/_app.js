@@ -14,16 +14,14 @@ function MyApp({ Component, pageProps }) {
     return null;
   }
 
-  if (typeof window === 'undefined') {
-    return <></>;
-  } else {
-
-  return (<>
-    <Layout>
-      <Component {...pageProps} />
-   </Layout>
-   </>)
+  if (typeof window !== 'undefined') {
+    return (<>
+      <Layout>
+        <Component {...pageProps} />
+     </Layout>
+     </>)
   }
+  
 
 }
 

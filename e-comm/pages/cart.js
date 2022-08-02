@@ -9,8 +9,6 @@ const Cart = ({error, products}) => {
   const {token} =  parseCookies()
     const router = useRouter()
 
-    console.log('products', products);
-
     if(!token){
       return(
           <div className="center-align">
@@ -52,7 +50,6 @@ export async function getServerSideProps(ctx){
           props:{error:products.error}
       }
   }
-  console.log("products",products)
   return {
       props:{products}
   }
