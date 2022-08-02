@@ -26,7 +26,7 @@ const Login = ()=>{
     }else{
        console.log(res2)
        cookie.set('token',res2.token)
-       cookie.set('user',res2.user)
+       cookie.set('user',JSON.stringify(res2.user))
        router.push('/account')
     }
 

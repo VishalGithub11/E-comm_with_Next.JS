@@ -49,7 +49,7 @@ const Signup = ()=>{
             <button className="btn waves-effect waves-light #1565c0 blue darken-3" type="submit">signup
               <i className="material-icons right">forward</i>
           </button>
-          <Link href="/login"><a className='redirect_link'><p>Already have a account ?</p></a></Link>
+          <Link href="/login"><a className='redirect_link'>Already have a account ?</a></Link>
         </form>
 
       </div>

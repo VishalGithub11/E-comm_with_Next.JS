@@ -1,12 +1,20 @@
 import {useRef, useEffect} from 'react'
 import baseUrl from "../../helpers/baseUrl"
 import { useRouter } from "next/router"
+import { parseCookies } from 'nookies'
 
 const Product = ({product}) => {
   const modalRef = useRef(null)
 
+  const cookie = parseCookies()
+  let user  = cookie.user ? JSON.parse(cookie.user) : ""
+
   const router = useRouter()
   
+  useEffect(()=>{
+    M.Modal.init(modalRef.current);
+ },[])
+
   if(router.isFallback){
     return(
       <div>
@@ -15,9 +23,7 @@ const Product = ({product}) => {
     )
   }
 
-  useEffect(()=>{
-     M.Modal.init(modalRef.current);
-  },[])
+ 
 
   const getModals = ()=>{
     return (
@@ -75,8 +81,12 @@ const Product = ({product}) => {
           <input placeholder="add items"  /> 
           <span></span> <a className="btn-floating btn-large waves-effect #4caf50 green "><i className="material-icons">add</i></a>
           </div>
-          <a data-target="modal1"className="btn modal-trigger waves-effect waves-light btn #f44336 red">Delete</a>
-         
+
+          {(user.role === 'admin'  || user.role === 'root') &&
+          <>
+           <a data-target="modal1"className="btn modal-trigger waves-effect waves-light btn #f44336 red">Delete</a>
+          </>
+          }         
          {getModals()}
         </div>
       </div>

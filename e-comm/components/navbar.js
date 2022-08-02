@@ -7,13 +7,9 @@ const Navbar = () => {
 
   const router = useRouter()
 
-  let user = false;
   const cookieuser = parseCookies()
-  if(cookieuser?.token){
-    user = true
-  }
-
-  // const user =  cookieuser.user ? JSON.parse(cookieuser.user) : ""
+  let user  = cookieuser.user ? JSON.parse(cookieuser.user) : ""
+  
 
   function isActive(route){
     if(route === router.pathname){
@@ -30,16 +26,16 @@ const Navbar = () => {
       <a  className="brand-logo">sfs.com</a>
       </Link>
       <ul id="nav-mobile" className="right hide-on-med-and-down">
-      { user  &&  <li  className={isActive('/create')}><Link href="/create"><a>Create</a></Link></li>}
+      {( user.role === "admin" || user.role === 'root')  &&  <li  className={isActive('/create')}><Link href="/create"><a>Create</a></Link></li>}
 {
   user ? 
   <>
   <li  className={isActive('/account')}><Link href="/account"><a>Account</a></Link></li>
-  {/* <li  className={isActive('/create')} onClick={()=>{
+  <li  className={isActive('/create')} onClick={()=>{
                   cookie.remove('token')
                   cookie.remove('user')
                   router.push('/login')
-                }}><a>Logout</a></li> */}
+                }}><a>Logout</a></li>
  
 
   </>

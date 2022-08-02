@@ -25,7 +25,7 @@ export async function getServerSideProps(ctx){
     // const res2 =  await res.json()
     // console.log(res2)
   
-    // return {
-    //     props:{orders:res2}
-    // }
+    return {
+        props:{}
+    }
   }

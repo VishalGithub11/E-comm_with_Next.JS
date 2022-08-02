@@ -10,7 +10,7 @@ export default function Home({products}) {
 
 const productList = products.map(product=>{
   return(
-    <Link href={`product/${product._id}`}  >
+    <Link href={`product/${product._id}`} key={product._id} >
       
       <div className="card productLink" key={product._id}>
         <div className="card-image">

@@ -1,4 +1,5 @@
 import Link from 'next/Link'
+import { parseCookies } from 'nookies';
 import {useState} from 'react'
 import baseUrl from '../helpers/baseUrl'
 
@@ -88,3 +89,17 @@ const create = () => {
 }
 
 export default create
+
+export async function getServerSideProps(ctx){
+  const cookie = parseCookies(ctx)
+ const user = cookie.user ? JSON.parse(cookie.user) : ""
+
+  if(user.role !== 'admin'){
+    const {res} = ctx
+    res.writeHead(302, {Location:'/'})
+    res.end()
+  }
+  return {
+    props: {}
+  }
+}
