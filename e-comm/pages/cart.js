@@ -8,6 +8,9 @@ import {useState} from 'react'
 const Cart = ({error, products}) => {
   const {token} =  parseCookies()
     const router = useRouter()
+    const [cProducts,setCartProduct] = useState(products)
+
+    let price = 0
 
     if(!token){
       return(
@@ -25,8 +28,43 @@ const Cart = ({error, products}) => {
 
 }
 
+const handleRemove = async (pid)=>{
+  const res = await fetch(`${baseUrl}/api/cart`,{
+        method:"DELETE",
+        headers:{
+           "Content-Type":"application/json",
+           "Authorization":token 
+        },
+        body:JSON.stringify({
+            productId:pid
+        })
+    })
+    const res2 =  await res.json()
+    setCartProduct(res2)
+ }
+
+const CartItems = ()=>{
+  return(
+      <>
+        {cProducts?.map(item=>{
+          price = price + item.quantity * item.product.price
+            return(
+                <div style={{display:"flex",margin:"20px"}} key={item._id}>
+                    <img src={item.product.mediaUrl} style={{width:"30%"}}/>
+                    <div style={{marginLeft:"20px"}}>
+                        <h6>{item.product.name}</h6>
+                        <h6>{item.quantity} x  ₹ {item.product.price}</h6>
+                        <button className="btn red" onClick={()=>{handleRemove(item.product._id)}}>remove</button>
+                    </div>
+                </div>
+            )
+        })}
+      </>
+  )
+}
+
   return (
-    <div> <h2>Cart</h2></div>
+    <div> {CartItems()}</div>
   )
 }
 
@@ -50,6 +88,9 @@ export async function getServerSideProps(ctx){
           props:{error:products.error}
       }
   }
+
+  console.log("products",products)
+
   return {
       props:{products}
   }
