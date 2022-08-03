@@ -4,6 +4,7 @@ import cookie from 'js-cookie'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {useState} from 'react'
+import StripeCheckout from 'react-stripe-checkout';
 
 const Cart = ({error, products}) => {
   const {token} =  parseCookies()
@@ -43,6 +44,24 @@ const handleRemove = async (pid)=>{
     setCartProduct(res2)
  }
 
+
+ const handleCheckout = async (paymentInfo)=>{
+  console.log(paymentInfo)
+  // const res = await fetch(`${baseUrl}/api/payment`,{
+  //     method:"POST",
+  //     headers:{
+  //        "Content-Type":"application/json",
+  //       "Authorization":token 
+  //     },
+  //     body:JSON.stringify({
+  //         paymentInfo
+  //     })
+  // })
+  // const res2 = await res.json()
+  // M.toast({html: res2.mesage,classes:"green "})
+  // router.push('/')
+}
+
 const CartItems = ()=>{
   return(
       <>
@@ -63,8 +82,36 @@ const CartItems = ()=>{
   )
 }
 
+
+const TotalPrice = ()=>{
+    return(
+        <div className="container" style={{display:"flex",justifyContent:"space-between"}}>
+            <h5>total ₹ {price}</h5>
+            {products.length != 0
+            &&  <StripeCheckout
+            name="sfs.com"
+            amount={price * 100}
+            image={products.length > 0 ? products[0].product.mediaUrl:""}
+            currency="INR"
+            shippingAddress={true}
+            billingAddress={true}
+            zipCode={true}
+            stripeKey="pk_test_51LSe3vSCKi8QYk3qGNCIpokbt6MB2whtOAuOBdNR68WU8ynYPR0CkDf4BuDGbWa5fgGleO5Ya3OjWjoZOqC6PNSc00JPdwBuCX"
+            token={(paymentInfo)=>handleCheckout(paymentInfo)}
+            >
+            <button className="btn">Checkout</button>
+            </StripeCheckout>
+            }
+          
+        </div>
+    )
+}
+
+
+
+
   return (
-    <div> {CartItems()}</div>
+    <div> {CartItems()} {TotalPrice()}</div>
   )
 }
 
@@ -88,10 +135,7 @@ export async function getServerSideProps(ctx){
           props:{error:products.error}
       }
   }
-
-  console.log("products",products)
-
-  return {
+ return {
       props:{products}
   }
 }
