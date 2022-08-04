@@ -3,7 +3,7 @@ import {v4 as uuidV4 } from 'uuid'
 import Cart from '../../models/Cart'
 import jwt from 'jsonwebtoken'
 import User from '../../models/User'
-// import Order from '../../models/Order'
+import Order from '../../models/Order'
 import initDb from '../../helpers/initDB'
 
 
@@ -12,7 +12,6 @@ initDb()
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
 export default async (req,res)=>{
-    // const {paymentInfo} = req.body
     const {authorization} = req.headers
     if(!authorization){
         return res.status(401).json({error:"you must logged in"})
@@ -25,13 +24,12 @@ export default async (req,res)=>{
           
           
 
-        //   const cart = await Cart.findOne({user:userId}).populate("products.product")
-        //   let price  = 0
-        //   cart.products.forEach(item=>{
-        //     price = price + item.quantity * item.product.price
-        //   })
+          const cart = await Cart.findOne({user:userId}).populate("products.product")
+          let price  = 0
+          cart.products.forEach(item=>{
+            price = price + item.quantity * item.product.price
+          })
 
-        // email:paymentInfo.email,
           const prevCustomer = await stripe.customers.list({
               email: req.body.email
           })
@@ -43,23 +41,8 @@ export default async (req,res)=>{
               })
           }
 
-        //   const line_items = req.body.item.products.map((item)=>{
-        //    return item.product
-        //   }).map((product)=>{
-        //     return {
-        //         price_data:{
-        //             currency: "INR",
-        //             product_data:{
-        //                 name: product.name,
-        //             },
-        //             unit_amount: product.price * 100,
-        //         },
-        //         quantity: 1
-        //     }
-        //   })
 
-        console.log('iitems', req.body.cartItems);
-const line_itemss= req.body.cartItems.map(item=>{
+   const line_itemss= req.body.cartItems.map(item=>{
     return (
         { 
             quantity:item.quantity,
@@ -80,24 +63,7 @@ const line_itemss= req.body.cartItems.map(item=>{
     )
 })
 
-console.log('sssssss', line_itemss);
-        const line_items = [{
-            price_data: {
-              currency: "INR",
-              product_data: {
-                name: 'some name',
-                
-                description: "some description",
-                metadata: {
-                  id: 'some item id',
-                },
-              },
-              unit_amount: 200 * 100,
-            },
-            quantity: 2,
-          }];
 
-          console.log('items', line_items);
 
         //  await stripe.charges.create(
         //       {
@@ -130,6 +96,18 @@ console.log('sssssss', line_itemss);
         //       {_id:cart._id},
         //       {$set:{products:[]}}
         //   )
+
+
+        await new Order({
+            user:userId,
+            email:req.body.email,
+            total:price,
+            products:cart.products
+        }).save()
+        await Cart.findOneAndUpdate(
+            {_id:cart._id},
+            {$set:{products:[]}}
+        )
 
         console.log('session', session);
         res.send({ url: session.url })
