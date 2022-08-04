@@ -58,3 +58,20 @@ input:focus{
   text-decoration: underline;
   color: #1565c0;
 }
+
+@media only screen and (min-width: 601px){
+  .row .col.m6 {
+   width: 100% !important
+  }
+}
+
+.success_card{
+  max-width: 100% !important;
+  margin: 0px;
+}
+.sec{
+  color: rgba(98, 255, 0, 0.818);
+  font-weight: 700;
+  font-size: larger;
+}
+

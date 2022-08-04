@@ -7,10 +7,12 @@ import {useState} from 'react'
 import StripeCheckout from 'react-stripe-checkout';
 
 const Cart = ({error, products}) => {
-  const {token} =  parseCookies()
+  const {token, user} =  parseCookies()
     const router = useRouter()
     const [cProducts,setCartProduct] = useState(products)
 
+    // console.log('email', JSON.parse(user).email);
+    let email = JSON.parse(user).email
     let price = 0
 
     if(!token){
@@ -47,19 +49,52 @@ const handleRemove = async (pid)=>{
 
  const handleCheckout = async (paymentInfo)=>{
   console.log(paymentInfo)
-  // const res = await fetch(`${baseUrl}/api/payment`,{
-  //     method:"POST",
-  //     headers:{
-  //        "Content-Type":"application/json",
-  //       "Authorization":token 
-  //     },
-  //     body:JSON.stringify({
-  //         paymentInfo
-  //     })
-  // })
-  // const res2 = await res.json()
-  // M.toast({html: res2.mesage,classes:"green "})
+  const res = await fetch(`${baseUrl}/api/payment`,{
+      method:"POST",
+      headers:{
+         "Content-Type":"application/json",
+        "Authorization":token 
+      },
+      body:JSON.stringify({
+          paymentInfo
+      })
+  })
+  const res2 = await res.json()
+  console.log('res', res2);
+  M.toast({html: res2.mesage,classes:"green "})
   // router.push('/')
+}
+
+
+let handleCheckout2 =  (item)=>{
+    try {
+         fetch(`${baseUrl}/api/payment/`,{
+            method:"POST",
+            headers:{
+               "Content-Type":"application/json",
+              "Authorization":token 
+            },
+            body:JSON.stringify({
+                cartItems: item,
+                email: email
+            })
+        }).then((res) => res.json()).then((response)=>{
+            console.log(response);
+            if (response.url) {
+              window.location.href = response.url;
+            }
+        })
+         
+       
+        // .post(`${url}/stripe/create-checkout-session`, {
+        //   cartItems,
+        //   userId: user._id,
+        // })
+       
+    } catch (error) {
+        console.log(error);
+    }
+   
 }
 
 const CartItems = ()=>{
@@ -68,6 +103,7 @@ const CartItems = ()=>{
         {cProducts?.map(item=>{
           price = price + item.quantity * item.product.price
             return(
+                <>
                 <div style={{display:"flex",margin:"20px"}} key={item._id}>
                     <img src={item.product.mediaUrl} style={{width:"30%"}}/>
                     <div style={{marginLeft:"20px"}}>
@@ -76,6 +112,13 @@ const CartItems = ()=>{
                         <button className="btn red" onClick={()=>{handleRemove(item.product._id)}}>remove</button>
                     </div>
                 </div>
+                <div className="container" style={{display:"flex",justifyContent:"space-between"}}>
+            <h5>total ₹ {price}</h5>
+            {products.length != 0
+            && 
+            <button className="btn" onClick={()=>handleCheckout2(item)}>Checkout</button>}
+            </div>
+                </>
             )
         })}
       </>
@@ -83,24 +126,31 @@ const CartItems = ()=>{
 }
 
 
+
+
+
+
 const TotalPrice = ()=>{
     return(
         <div className="container" style={{display:"flex",justifyContent:"space-between"}}>
             <h5>total ₹ {price}</h5>
             {products.length != 0
-            &&  <StripeCheckout
-            name="sfs.com"
-            amount={price * 100}
-            image={products.length > 0 ? products[0].product.mediaUrl:""}
-            currency="INR"
-            shippingAddress={true}
-            billingAddress={true}
-            zipCode={true}
-            stripeKey="pk_test_51LSe3vSCKi8QYk3qGNCIpokbt6MB2whtOAuOBdNR68WU8ynYPR0CkDf4BuDGbWa5fgGleO5Ya3OjWjoZOqC6PNSc00JPdwBuCX"
-            token={(paymentInfo)=>handleCheckout(paymentInfo)}
-            >
-            <button className="btn">Checkout</button>
-            </StripeCheckout>
+            && 
+            <button className="btn" onClick={()=>handleCheckout2()}>Checkout</button>
+            
+            // <StripeCheckout
+            // name="sfs.com"
+            // amount={price * 100}
+            // image={products.length > 0 ? products[0].product.mediaUrl:""}
+            // currency="INR"
+            // shippingAddress={true}
+            // billingAddress={true}
+            // zipCode={true}
+            // stripeKey="pk_test_51LSe3vSCKi8QYk3qGNCIpokbt6MB2whtOAuOBdNR68WU8ynYPR0CkDf4BuDGbWa5fgGleO5Ya3OjWjoZOqC6PNSc00JPdwBuCX"
+            // token={(paymentInfo)=>handleCheckout(paymentInfo)}
+            // >
+            // <button className="btn">Checkout</button>
+            // </StripeCheckout>
             }
           
         </div>
@@ -111,7 +161,7 @@ const TotalPrice = ()=>{
 
 
   return (
-    <div> {CartItems()} {TotalPrice()}</div>
+    <div> {CartItems()}</div>
   )
 }
 

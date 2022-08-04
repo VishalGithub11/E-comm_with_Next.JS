@@ -6,7 +6,6 @@ import baseUrl from '../helpers/baseUrl';
 
 export default function Home({products}) {
 
-  console.log('products', products);
 
 const productList = products.map(product=>{
   return(
