@@ -1,7 +1,7 @@
 import {parseCookies} from 'nookies'
 import baseUrl from '../helpers/baseUrl'
 import {useEffect,useRef} from 'react'
-// import UserRoles from '../components/UserRoles'
+import UserRoles from '../components/UserRoles'
 
 const Account = ({orders}) => {
   const orderCard = useRef(null)
@@ -53,9 +53,9 @@ const OrderHistory = ()=>{
               </div>
           :<OrderHistory />
           }
-          {/* {user.role == "root"
+          {user.role == "root"
           &&<UserRoles />
-          }  */}
+          } 
       </div>
   )
 }
