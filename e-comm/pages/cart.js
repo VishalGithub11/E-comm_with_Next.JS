@@ -66,7 +66,7 @@ const handleRemove = async (pid)=>{
 }
 
 
-let handleCheckout2 =  (item)=>{
+let handleCheckout2 =  ()=>{
     try {
          fetch(`${baseUrl}/api/payment/`,{
             method:"POST",
@@ -75,7 +75,7 @@ let handleCheckout2 =  (item)=>{
               "Authorization":token 
             },
             body:JSON.stringify({
-                cartItems: item,
+                cartItems: cProducts,
                 email: email
             })
         }).then((res) => res.json()).then((response)=>{
@@ -96,8 +96,8 @@ let handleCheckout2 =  (item)=>{
     }
    
 }
-
 const CartItems = ()=>{
+
   return(
       <>
         {cProducts?.map(item=>{
@@ -112,12 +112,7 @@ const CartItems = ()=>{
                         <button className="btn red" onClick={()=>{handleRemove(item.product._id)}}>remove</button>
                     </div>
                 </div>
-                <div className="container" style={{display:"flex",justifyContent:"space-between"}}>
-            <h5>total ₹ {price}</h5>
-            {products.length != 0
-            && 
-            <button className="btn" onClick={()=>handleCheckout2(item)}>Checkout</button>}
-            </div>
+                
                 </>
             )
         })}
@@ -161,7 +156,7 @@ const TotalPrice = ()=>{
 
 
   return (
-    <div> {CartItems()}</div>
+    <div> {CartItems()}{TotalPrice()}</div>
   )
 }
 

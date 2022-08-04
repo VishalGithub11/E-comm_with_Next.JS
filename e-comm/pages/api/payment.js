@@ -58,9 +58,32 @@ export default async (req,res)=>{
         //     }
         //   })
 
+        console.log('iitems', req.body.cartItems);
+const line_itemss= req.body.cartItems.map(item=>{
+    return (
+        { 
+            quantity:item.quantity,
+            price_data:{
+                currency: 'INR',
+                product_data:{
+                    name: item.product.name,
+                    description: item.product.description,
+                    images: [item.product.mediaUrl],
+                    metadata:{
+                        id: item.product._id
+                    }
+                },
+            unit_amount: item.product.price * 100,
+            },
+            
+        }
+    )
+})
+
+console.log('sssssss', line_itemss);
         const line_items = [{
             price_data: {
-              currency: "usd",
+              currency: "INR",
               product_data: {
                 name: 'some name',
                 
@@ -90,7 +113,7 @@ export default async (req,res)=>{
         const session =   await stripe.checkout.sessions.create({
             success_url: 'http://localhost:3000/payment_success',
             cancel_url: 'http://localhost:3000/cart',
-            line_items,
+            line_items:line_itemss,
             customer: isExistingCustomer ? prevCustomer.data[0].id : newCustomer.id,
             mode: 'payment',  
         }, {
