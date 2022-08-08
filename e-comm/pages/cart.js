@@ -4,14 +4,15 @@ import cookie from 'js-cookie'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {useState} from 'react'
-import StripeCheckout from 'react-stripe-checkout';
+import {useDispatch, useSelector } from 'react-redux'
+import { fetchAllQuantity } from '../slice/cartQuantity'
 
 const Cart = ({error, products}) => {
   const {token, user} =  parseCookies()
     const router = useRouter()
     const [cProducts,setCartProduct] = useState(products)
+    const dispatch = useDispatch()
 
-    // console.log('email', JSON.parse(user).email);
     let email = JSON.parse(user).email
     let price = 0
 
@@ -44,26 +45,10 @@ const handleRemove = async (pid)=>{
     })
     const res2 =  await res.json()
     setCartProduct(res2)
+    if(res2){
+       dispatch(fetchAllQuantity(token))
+    }
  }
-
-
- const handleCheckout = async (paymentInfo)=>{
-  console.log(paymentInfo)
-  const res = await fetch(`${baseUrl}/api/payment`,{
-      method:"POST",
-      headers:{
-         "Content-Type":"application/json",
-        "Authorization":token 
-      },
-      body:JSON.stringify({
-          paymentInfo
-      })
-  })
-  const res2 = await res.json()
-  console.log('res', res2);
-  M.toast({html: res2.mesage,classes:"green "})
-  // router.push('/')
-}
 
 
 let handleCheckout2 =  ()=>{
@@ -84,12 +69,6 @@ let handleCheckout2 =  ()=>{
               window.location.href = response.url;
             }
         })
-         
-       
-        // .post(`${url}/stripe/create-checkout-session`, {
-        //   cartItems,
-        //   userId: user._id,
-        // })
        
     } catch (error) {
         console.log(error);
@@ -132,20 +111,6 @@ const TotalPrice = ()=>{
             {products.length != 0
             && 
             <button className="btn" onClick={()=>handleCheckout2()}>Checkout</button>
-            
-            // <StripeCheckout
-            // name="sfs.com"
-            // amount={price * 100}
-            // image={products.length > 0 ? products[0].product.mediaUrl:""}
-            // currency="INR"
-            // shippingAddress={true}
-            // billingAddress={true}
-            // zipCode={true}
-            // stripeKey="pk_test_51LSe3vSCKi8QYk3qGNCIpokbt6MB2whtOAuOBdNR68WU8ynYPR0CkDf4BuDGbWa5fgGleO5Ya3OjWjoZOqC6PNSc00JPdwBuCX"
-            // token={(paymentInfo)=>handleCheckout(paymentInfo)}
-            // >
-            // <button className="btn">Checkout</button>
-            // </StripeCheckout>
             }
           
         </div>

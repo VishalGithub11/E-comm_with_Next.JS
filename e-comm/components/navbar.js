@@ -2,13 +2,22 @@ import Link from "next/link"
 import {useRouter} from "next/router"
 import {parseCookies} from 'nookies'
 import cookie from 'js-cookie'
+import {useDispatch, useSelector } from 'react-redux'
+import { useEffect } from "react"
+import { fetchAllQuantity } from "../slice/cartQuantity"
 
 const Navbar = () => {
 
+  const dispatch = useDispatch()
   const router = useRouter()
+
+  const cartNumbers = useSelector(state=>state.fetchQuantitySlice.cartQuantity)
+
 
   const cookieuser = parseCookies()
   let user  = cookieuser.user ? JSON.parse(cookieuser.user) : ""
+
+  const token = cookieuser?.token
   
   function isActive(route){
     if(route === router.pathname){
@@ -17,6 +26,10 @@ const Navbar = () => {
       return ''
     }
   }
+
+  useEffect(()=>{
+    dispatch(fetchAllQuantity(token))
+  },[])
 
   return (
     <nav>
@@ -46,7 +59,7 @@ const Navbar = () => {
 
 <i className="material-icons">shopping_cart</i>
             <span style={{ position: "absolute", left: "28px", top: "-10px" }}>
-              3
+              {cartNumbers}
             </span>
           </a>
 </Link></li>

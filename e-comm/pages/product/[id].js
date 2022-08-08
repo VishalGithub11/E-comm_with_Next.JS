@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import cookie2 from 'js-cookie'
 import {useState} from 'react'
+import { useDispatch } from "react-redux";
+import { fetchAllQuantity } from "../../slice/cartQuantity";
 
 
 const Product = ({ product }) => {
@@ -11,8 +13,10 @@ const Product = ({ product }) => {
   const modalRef = useRef(null);
   const cookie = parseCookies();
   let user = cookie.user ? JSON.parse(cookie.user) : "";
+  const dispatch = useDispatch()
 
   const router = useRouter();
+  const token = cookie.token
 
   useEffect(() => {
     M.Modal.init(modalRef.current);
@@ -55,6 +59,9 @@ const Product = ({ product }) => {
     const data = await res.json();
     console.log(data);
     router.push("/");
+    if(data){
+      dispatch(fetchAllQuantity(token))
+    }
   };
 
   const AddToCart = async ()=>{
@@ -69,7 +76,11 @@ const Product = ({ product }) => {
        productId:product._id
       })
     })
+    
   const res2 = await res.json()
+  if(res2){
+    dispatch(fetchAllQuantity(token))
+  }
   console.log('res2', res2);
   if(res2.error){
      M.toast({html:error,classes:"red"})
