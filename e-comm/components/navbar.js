@@ -15,7 +15,6 @@ const Navbar = () => {
 
   const cartNumbers = useSelector(state=>state.fetchQuantitySlice.cartQuantity)
 
-
   const cookieuser = parseCookies()
   let user  = cookieuser.user ? JSON.parse(cookieuser.user) : ""
 
@@ -58,11 +57,10 @@ const Navbar = () => {
         <li  className={isActive('/signup')}><Link href="/signup"><a>Sign up</a></Link></li>
   </>
 }
-<li  className={isActive('/cart')}><Link href="/cart">
-<a className="btn-floating halfway-fab waves-effect waves-light red">
-
+<li  className={isActive('/cart')}> <Link href="/cart">
+<a className="waves-effect waves-light red">
 <i className="material-icons">shopping_cart</i>
-            <span style={{ position: "absolute", left: "28px", top: "-10px" }}>
+            <span style={{ position: "absolute", left: "35px", top: "-12px" }}>
               {cartNumbers}
             </span>
           </a>

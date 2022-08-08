@@ -98,12 +98,6 @@ const Product = ({ product }) => {
         <div className="card-image">
           <img src={product.mediaUrl} />
           <span className="card-title">{product.name}</span>
-          <a className="btn-floating halfway-fab waves-effect waves-light red">
-            <i className="material-icons">shopping_cart</i>
-            <span style={{ position: "absolute", left: "28px", top: "-10px" }}>
-              3
-            </span>
-          </a>
         </div>
         <div className="card-content">
           <p>{product.description}</p>
@@ -120,11 +114,11 @@ const Product = ({ product }) => {
              type="number"
             />
             <span></span>{" "}
-            {user ?  <a className="btn-floating btn-large waves-effect #4caf50 green " onClick={()=>AddToCart()}>
-              <i className="material-icons">add</i>
+            {user ? <a className="btn waves-effect #4caf50 green" onClick={()=> AddToCart()}>
+             Add-to-Cart
             </a> : 
             <a className="btn waves-effect #4caf50 green " onClick={()=> router.push('/login')}>
-             Login to add
+             Login-to-add
             </a>
             }
           </div>
