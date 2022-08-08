@@ -5,6 +5,8 @@ import cookie from 'js-cookie'
 import {useDispatch, useSelector } from 'react-redux'
 import { useEffect } from "react"
 import { fetchAllQuantity } from "../slice/cartQuantity"
+import logo from '../public/logo4.png'
+import Image from "next/image"
 
 const Navbar = () => {
 
@@ -35,7 +37,9 @@ const Navbar = () => {
     <nav>
     <div className="nav-wrapper">
       <Link href="/">
-      <a  className="brand-logo">sfs.com</a>
+        
+      <a  className="brand-logo"><Image src={logo} height='64px' width='350px' /> </a>
+    
       </Link>
       <ul id="nav-mobile" className="right hide-on-med-and-down">
       {( user.role === "admin" || user.role === 'root')  &&  <li  className={isActive('/create')}><Link href="/create"><a>Create</a></Link></li>}
@@ -75,7 +79,6 @@ export default Navbar
 
 
 export async function getServerSideProps(ctx){
-  console.log('shhhh');
   const {token} = parseCookies(ctx)
   if(!token){
       return {

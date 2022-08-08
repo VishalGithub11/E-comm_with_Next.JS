@@ -43,7 +43,6 @@ justify-content: center;
 }
 }
 
-
 .authcard{
   margin: 10px auto !important;
   max-width: 500px !important;
@@ -75,3 +74,8 @@ input:focus{
   font-size: larger;
 }
 
+.logo-text{
+  margin-left: 100px;
+  font-size: medium;
+  font-weight: 500;
+}
