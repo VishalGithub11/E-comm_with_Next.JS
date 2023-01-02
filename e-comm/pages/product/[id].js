@@ -6,6 +6,7 @@ import cookie2 from 'js-cookie'
 import {useState} from 'react'
 import { useDispatch } from "react-redux";
 import { fetchAllQuantity } from "../../slice/cartQuantity";
+// import M from 'materialize-css'
 
 
 const Product = ({ product }) => {
@@ -32,7 +33,7 @@ const Product = ({ product }) => {
 
   const getModals = () => {
     return (
-      <div id="modal1" class="modal" ref={modalRef}>
+      <div id="modal1" className="modal" ref={modalRef}>
         <div className="modal-content">
           <h4>{product.name}</h4>
           <p>Are you sure want to delete this ?</p>
@@ -114,10 +115,10 @@ const Product = ({ product }) => {
              type="number"
             />
             <span></span>{" "}
-            {user ? <a className="btn waves-effect #4caf50 green" onClick={()=> AddToCart()}>
+            {user ? <a className="btn waves-effect #4caf50 green fullTextButton" onClick={()=> AddToCart()}>
              Add-to-Cart
             </a> : 
-            <a className="btn waves-effect #4caf50 green " onClick={()=> router.push('/login')}>
+            <a className="btn waves-effect #4caf50 green fullTextButton" onClick={()=> router.push('/login')}>
              Login-to-add
             </a>
             }
@@ -142,38 +143,38 @@ const Product = ({ product }) => {
 
 export default Product;
 
-// export async function getServerSideProps({params}){
+export async function getServerSideProps({params}){
 
-//     const productId = params.id
-//     const response = await fetch(`${baseUrl}/api/product/${productId}`)
-//     const data = await response.json()
+    const productId = params.id
+    const response = await fetch(`${baseUrl}/api/product/${productId}`)
+    const data = await response.json()
 
-//     return{
-//         props:{
-//             product: data
-//         }
-//     }
+    return{
+        props:{
+            product: data
+        }
+    }
+}
+
+// export async function getStaticPaths() {
+//   return {
+//     paths: [
+//       {
+//         params: { id: "62e3e783240b8ee54290e1bb" },
+//       },
+//     ],
+//     fallback: true,
+//   };
 // }
 
-export async function getStaticPaths() {
-  return {
-    paths: [
-      {
-        params: { id: "62e3e783240b8ee54290e1bb" },
-      },
-    ],
-    fallback: true,
-  };
-}
+// export async function getStaticProps({ params }) {
+//   const productId = params.id;
+//   const response = await fetch(`${baseUrl}/api/product/${productId}`);
+//   const data = await response.json();
 
-export async function getStaticProps({ params }) {
-  const productId = params.id;
-  const response = await fetch(`${baseUrl}/api/product/${productId}`);
-  const data = await response.json();
-
-  return {
-    props: {
-      product: data,
-    },
-  };
-}
+//   return {
+//     props: {
+//       product: data,
+//     },
+//   };
+// }

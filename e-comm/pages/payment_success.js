@@ -23,14 +23,14 @@ const Payment_sucess = () => {
 
   return (
     
-<div class="row">
-    <div class="col s10 m6">
-      <div class="card blue-grey darken-1 success_card">
-        <div class="card-content white-text">
-          <span class="card-title">Payment Successfull</span>
+<div className="row">
+    <div className="col s10 m6">
+      <div className="card blue-grey darken-1 success_card">
+        <div className="card-content white-text">
+          <span className="card-title">Payment Successfull</span>
           <p>You will be redirect to Homepage within <span className='sec'> {sec}</span> {sec > 1 ? "seconds" : "second" } </p>
         </div>
-        <div class="card-action">
+        <div className="card-action">
          <Link href="/"><a>homepage</a></Link>
          <Link href="/cart"><a>cart</a></Link>
 

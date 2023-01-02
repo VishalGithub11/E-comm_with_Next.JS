@@ -2,6 +2,7 @@ import Link from 'next/link'
 import {useState} from 'react'
 import baseUrl from '../helpers/baseUrl'
 import { useRouter } from 'next/router'
+// import M from 'materialize-css'
 const Signup = ()=>{
   const [name,setName] = useState("")
   const [email,setEmail] = useState("")

@@ -66,7 +66,10 @@ let handleCheckout2 =  ()=>{
         }).then((res) => res.json()).then((response)=>{
             console.log(response);
             if (response.url) {
-              window.location.href = response.url;
+                if(typeof window !==  undefined){
+                    window.location.href = response.url;
+                }
+              
             }
         })
        

@@ -2,19 +2,29 @@ import Link from 'next/Link'
 import { parseCookies } from 'nookies';
 import {useState} from 'react'
 import baseUrl from '../helpers/baseUrl'
+import { FadeLoader } from 'react-spinners';
 
-const create = () => {
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+  top:"150px"
+};
+
+const Create = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [media, setMedia] = useState("")
   const [description, setDescription] = useState("")
+  const [loading, setLoading] = useState(false);
 
-
+ 
 
   const handleSubmit = async (e)=>{
     e.preventDefault()
     try{
-         const mediaUrl =  await imageUpload()
+      setLoading(true)
+     const mediaUrl =  await imageUpload()
     const res =  await fetch(`${baseUrl}/api/products`,{
       method:"POST",
       headers:{
@@ -29,11 +39,14 @@ const create = () => {
     })
     const res2 = await res.json()
     if(res2.error){
+      setLoading(false)
       M.toast({html: res2.error,classes:"red"})
     }else{
+      setLoading(false)
       M.toast({html: "Product saved",classes:"green"})
     }
     }catch(err){
+      setLoading(false)
       console.log(err)
     }
 
@@ -52,9 +65,17 @@ const create = () => {
        return res2.url
   }
 
+ 
+
 
   return (
-    <form className="container" onSubmit={(e)=>handleSubmit(e)}>
+    <div className="container" >
+      <FadeLoader
+      color="red"
+        loading={loading}
+        cssOverride={override} />
+    
+    <form onSubmit={(e)=>handleSubmit(e)}>
          <input type="text" name="name" placeholder="Name" 
          value={name} 
          onChange={(e)=>{setName(e.target.value)}}
@@ -85,10 +106,11 @@ const create = () => {
             <i className="material-icons right">send</i>
           </button>
      </form>
+     </div>
   )
 }
 
-export default create
+export default Create
 
 export async function getServerSideProps(ctx){
   const cookie = parseCookies(ctx)

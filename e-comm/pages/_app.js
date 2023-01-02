@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../styles/globals.css'
+import styles from '../styles/Home.module.css'
 
 import Layout from '../components/layout'
 
@@ -17,7 +18,7 @@ function MyApp({ Component, pageProps }) {
     return null;
   }
 
-  if (typeof window !== 'undefined') {
+  if (domLoaded) {
     return (<>
    <Provider store={store}>
       <Layout>

@@ -5,7 +5,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
-
+/* 
 a {
   color: inherit;
   text-decoration: none;
@@ -13,9 +13,9 @@ a {
 
 * {
   box-sizing: border-box;
-}
+} */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
@@ -23,7 +23,7 @@ a {
     color: white;
     background: black;
   }
-}
+} */
 
 @media (min-width:600px){
 
@@ -78,4 +78,7 @@ input:focus{
   margin-left: 100px;
   font-size: medium;
   font-weight: 500;
+}
+.fullTextButton{
+  padding: 0px 0px !important;
 }

@@ -5,7 +5,7 @@ import cookie from 'js-cookie'
 import {useDispatch, useSelector } from 'react-redux'
 import { useEffect } from "react"
 import { fetchAllQuantity } from "../slice/cartQuantity"
-import logo from '../public/logo4.png'
+import logo from '../public/logo5.png'
 import Image from "next/image"
 
 const Navbar = () => {
@@ -36,11 +36,18 @@ const Navbar = () => {
     <nav>
     <div className="nav-wrapper">
       <Link href="/">
-        
-      <a  className="brand-logo"><Image src={logo} height='64px' width='350px' /> </a>
+      <a  className="brand-logo left" style={{maxWidth:"58px"}}>
+        <Image src={logo} 
+        // height='64px'
+        //  width='350px'
+          /> 
+        </a>
     
       </Link>
-      <ul id="nav-mobile" className="right hide-on-med-and-down">
+      {/* <Link href="/"> <a  className="brand-logo left"> LOGO </a>
+    </Link> */}
+      <ul id="nav-mobile" className="right 
+      ">
       {( user.role === "admin" || user.role === 'root')  &&  <li  className={isActive('/create')}><Link href="/create"><a>Create</a></Link></li>}
 {
   user ? 
