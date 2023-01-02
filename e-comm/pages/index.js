@@ -52,6 +52,7 @@ const productList = products.map(product=>{
         <a
           href="https://www.linkedin.com/in/modanwal11"
           target="_blank"
+          rel="noopener noreferrer"
         >
            <div>
            Created By Vishal Modanwal{' '} 
